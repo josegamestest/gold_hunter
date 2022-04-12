@@ -1,2 +1,3 @@
-# gold_hunter
+# Gold_hunter
 Mod de minigame de pegar ouro
+GOLD HUNTE Gold hunter is a simple minigame, the idea is to play a minigame simply from a mod, the challenge level would be chosen by the player within the arena that he himself can assemble, to increase the difficulty by typing the command jose_gold_hunter where the player is modified to lose energy when falling from half a block high Item. A box that the player can scatter to others with the right mouse button A player-grabable, wall-grabable climbing hook the gold to capture with the right mouse button a red helmeted dummy that can be activated with the above command The idea is not to change minetest, but just to give the player possibilities to have fun making modifications that can be removed later, in worlds already created or generated.
