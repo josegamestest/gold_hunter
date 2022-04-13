@@ -26,8 +26,12 @@ Get the gold with the right mouse button, if you click with the left button, the
 ## Arena
 To better understand the mod, I created a map to use with the mod, so you will have a simple arena that can be updated according to new developments.
 
+## Video
+https://youtu.be/e8-P6uGha8I
+
 ## Recommended
 Minetest 5.4.0
 
 mods
 protector
+
