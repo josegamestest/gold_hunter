@@ -16,7 +16,7 @@ minetest.register_craftitem("gold_hunter:spear_hook_item", {
 local hook_entity = {
 	groups = {not_in_creative_inventory=1},
   initial_properties = {
-    hp_max = 1,
+    hp_max = 20,
     physical = true,
     collide_with_objects = false,
     collisionbox = {-0.2, -0.2, -0.2, 0.2, 0.2, 0.2},
@@ -26,7 +26,7 @@ local hook_entity = {
     spritediv = {x = 1, y = 1},
     initial_sprite_basepos = {x = 0, y = 0},
     pointable = false,
-
+	glow= 8,
     speed = 15, gravity = 16,
 	damage = 0,
     lifetime = 10
@@ -39,17 +39,15 @@ function hook_entity:on_step(dtime, moveresult)
 
   if collided_with_node then
 	local position = self.object:get_pos()
+	minetest.sound_play("hook_clip", {pos=position, gain = 1.0, max_hear_distance = 10})
 	minetest.set_node(position, {name = "gold_hunter:hook_claw"})
-	minetest.sound_play("hook_clipe", {pos=position, gain = 1.0, max_hear_distance = 10})
+	
     self.object:remove()
   end
 end
 
 function hook_entity:on_activate(staticdata)
-  if not staticdata or not minetest.get_player_by_name(staticdata) then
-    self.object:remove()
-    return
-  end
+  if not staticdata or not minetest.get_player_by_name(staticdata) then self.object:remove() return end
   self.player_name = staticdata
   local player = minetest.get_player_by_name(staticdata)
   local yaw = player:get_look_horizontal()
@@ -62,7 +60,7 @@ function hook_entity:on_activate(staticdata)
       y=(dir.y * self.initial_properties.speed),
       z=(dir.z * self.initial_properties.speed),
   })
-  self.object:set_acceleration({x=dir.x*-4, y=-self.initial_properties.gravity, z=dir.z*-4})
+  self.object:set_acceleration({x=dir.x*-2, y=-self.initial_properties.gravity, z=dir.z*-2})
   minetest.after(self.initial_properties.lifetime, function() self.object:remove() end)
 end
 
@@ -72,12 +70,15 @@ minetest.register_node("gold_hunter:hook_claw", {
   description = "hook_claw",
   sunlight_propagates = true,
 	walkable = false,
+	selection_box = {type = "fixed",fixed = { -0.1, -0.5, -0.1, 0.1, 0.5, 0.1}},
+	collision_box = {type = "fixed",fixed = { -0.1, -0,5, -0.1, 0.1, 0.5, 0.1}},
 	climbable = true,
 	paramtype = "light",
 	drawtype = "plantlike",
 	tiles = {"hook.png"},
 	drop="gold_hunter:spear_hook_item",
 	paramtype2 = "wallmounted",
+	light_source = 10,
 groups = {snappy = 3,  grass = 1, junglegrass = 1, attached_node=1,not_in_creative_inventory=1},
 
 on_construct = function(pos)  rope_construir(pos)  end,
@@ -103,6 +104,8 @@ minetest.register_node("gold_hunter:rope", {
 	pointable = true,
 	diggable = true,
 	drop="",
+	selection_box = {type = "fixed",fixed = { -0.1, -0.5, -0.1, 0.1, 0.5, 0.1}},
+	collision_box = {type = "fixed",fixed = { -0.1, -0,5, -0.1, 0.1, 0.5, 0.1}},
 
 	--selection_box = {type = "wallmounted",},
 	groups = {snappy = 3, flora = 1,not_in_creative_inventory=1, attached_node=1},

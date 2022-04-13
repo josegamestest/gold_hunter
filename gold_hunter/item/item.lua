@@ -6,11 +6,8 @@ minetest.register_node("gold_hunter:gold_hunter_gold", {
     ight_source = 5,
     use_texture_alpha ="clip",
     sunlight_propagates = true,
-    inventory_image = "gold_hunter_front.png",
-    wield_image = "gold_hunter_front.png",
     paramtype2 = "facedir",
-    tiles = {"gold_hunter_top.png", "gold_hunter_top.png", "gold_hunter_side.png",
-            "gold_hunter_side.png", "gold_hunter_back.png", "gold_hunter_front.png"},
+	tiles = {"gold_hunter_spawn.png"},
     paramtype = "light",
     pathfinding= false,
     groups = {cracky=3,oddly_breakable_by_hand=3,torch=1, not_in_creative_inventory=0},
@@ -37,6 +34,7 @@ minetest.register_entity("gold_hunter:gold_hunter_gold",{   --prpriedades da ent
 	backface_culling = false,
 	player_name = "",
 	drop="gold_hunter:gold_hunter_gold_igont",
+	
 
 
 on_rightclick = function(self,clicker,jogador)
