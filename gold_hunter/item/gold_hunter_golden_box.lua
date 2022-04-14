@@ -1,4 +1,5 @@
---bau geral para todos os mods
+--Player chest hold items
+--Itens para segurar o baú do jogador
 minetest.register_node("gold_hunter:gold_hunter_golden_box", {
     description=("gold_hunter_golden_box"),
 	tiles = {"gold_hunter_top.png", "gold_hunter_top.png", "gold_hunter_side.png",
@@ -21,12 +22,14 @@ minetest.register_node("gold_hunter:gold_hunter_golden_box", {
 				"listring[current_player;main]" ..
 				default.get_hotbar_bg(0,4.85))
 	end,
-    
+
     after_place_node = function(pos, placer)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("infotext",placer:get_player_name().."'s golden_box" or "")
 		end,
 })
+--chest recipes
+--receitas do baú
 minetest.register_craft({
 		output = 'gold_hunter:gold_hunter',
 		recipe = {
@@ -35,6 +38,8 @@ minetest.register_craft({
 			{'default:obsidian_block','default:obsidian_block','default:obsidian_block'}
 		}
 	})
+--player inv
+--inv do jogador
 minetest.register_on_joinplayer(function(player)
 	local inv = player:get_inventory()
 	inv:set_size("gold_hunter:gold_hunter", 8*4)

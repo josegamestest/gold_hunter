@@ -1,4 +1,8 @@
+--vetor para mod
+--vector for mod
 gold_hunter = {}
+--hook launcher item
+--item lançador de  gancho
 minetest.register_craftitem("gold_hunter:spear_hook_item", {
   description = "spear_hook_item",
   inventory_image = "hook.png",
@@ -6,13 +10,16 @@ minetest.register_craftitem("gold_hunter:spear_hook_item", {
   on_use =
     function(_, player, pointed_thing, pos)
       local throw_starting_pos = vector.add({x=0, y=1.5, z=0}, player:get_pos())
-      local esperalda_teleport = minetest.add_entity(throw_starting_pos, "gold_hunter:hook_entity", player:get_player_name())
+      minetest.add_entity(throw_starting_pos, "gold_hunter:hook_entity", player:get_player_name())
 	 --local pos= player:get_pos()
       minetest.after(0, function() player:get_inventory():remove_item("main", "gold_hunter:spear_hook_item") end)
 		minetest.sound_play("to_throw", {pos=pos, gain = 1.0, max_hear_distance = 3})
     end,
 })
 
+--------------------------------------------------------------------------------
+--defining object hook
+--definindo gancho objeto
 local hook_entity = {
 	groups = {not_in_creative_inventory=1},
   initial_properties = {
@@ -46,6 +53,8 @@ function hook_entity:on_step(dtime, moveresult)
   end
 end
 
+--funcao ativar ao objeto
+--function activate to object
 function hook_entity:on_activate(staticdata)
   if not staticdata or not minetest.get_player_by_name(staticdata) then self.object:remove() return end
   self.player_name = staticdata
@@ -65,7 +74,10 @@ function hook_entity:on_activate(staticdata)
 end
 
 minetest.register_entity("gold_hunter:hook_entity", hook_entity)
+--------------------------------------------------------------------------------
 
+--no garra de gancho
+--hook claw node
 minetest.register_node("gold_hunter:hook_claw", {
   description = "hook_claw",
   sunlight_propagates = true,
@@ -84,7 +96,9 @@ groups = {snappy = 3,  grass = 1, junglegrass = 1, attached_node=1,not_in_creati
 on_construct = function(pos)  rope_construir(pos)  end,
 --after_destruct = function(pos)  rope_destruir(pos) end,
 })
- 
+--------------------------------------------------------------------------------------------------------------
+--definindo corda objeto
+--defining rope object
 minetest.register_node("gold_hunter:rope", {
 	description = ("rope"),
 	drawtype = "plantlike",
