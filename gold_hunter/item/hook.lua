@@ -4,9 +4,9 @@ gold_hunter = {}
 --hook launcher item
 --item lançador de  gancho
 minetest.register_craftitem("gold_hunter:spear_hook_item", {
+  stack_max = 3,
   description = "spear_hook_item",
   inventory_image = "hook.png",
-  stack_max = 300,
   on_use =
     function(_, player, pointed_thing, pos)
       local throw_starting_pos = vector.add({x=0, y=1.5, z=0}, player:get_pos())
@@ -48,7 +48,7 @@ function hook_entity:on_step(dtime, moveresult)
 	local position = self.object:get_pos()
 	minetest.sound_play("hook_clip", {pos=position, gain = 1.0, max_hear_distance = 10})
 	minetest.set_node(position, {name = "gold_hunter:hook_claw"})
-	
+	if position == nil then return end
     self.object:remove()
   end
 end

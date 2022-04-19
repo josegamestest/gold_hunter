@@ -1,3 +1,4 @@
+local seconds = 0
 --funcao delta_time do objecto destribuidor de ouro no mapa
 --gold distributor object delta time function on map
 function gold_hunter_gold_dtime(self,pos,dtime)
@@ -13,4 +14,15 @@ function gold_hunter_gold_dtime(self,pos,dtime)
 		else minetest.chat_send_all("Place is not free to put")
 		minetest.get_node_timer(position):start(4.5)
 		end
-	end
+end
+
+	
+function gold_hunter_timer_reativa(self, dtime)
+	if seconds<=50 then seconds = seconds+1 end
+end
+
+
+function gold_hunter_desativa(hitter,player, pointed_thing, pos)
+		seconds=0
+end
+
