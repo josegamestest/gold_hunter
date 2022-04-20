@@ -52,8 +52,40 @@ minetest.register_node("gold_hunter:shop_"..itens[i][1], {
     paramtype = "light",
     pathfinding= false,
     groups = {cracky=3,oddly_breakable_by_hand=3,torch=1, not_in_creative_inventory=0},
-	on_rightclick = function(pos, node, clicker)
+--[[	on_rightclick = function(pos, node, clicker)
 		local position = clicker:get_pos() position.y = position.y+1
+		local node = minetest.get_node(position)
+		local posicao = vector.add(pos, {x = 0, y =1, z = 0})
+		
+	if shop_spawn==false then 
+		shop_spawn=true
+	
+    if node.name == "air"then
+		if position == nil then return end
+		for _, ob in pairs(minetest.get_objects_inside_radius(posicao, 1)) do
+			if not ob:is_player() and (not entity or not entity.name:find()) then 
+				ob:remove() end end
+				minetest.sound_play("enabled", {pos=position, gain = 1.0, max_hear_distance = 10})
+				minetest.add_entity(posicao, "gold_hunter:shop_spawn_entity_"..itens[i][1])
+				minetest.get_node_timer(position):start(4.5)
+			end 
+	
+	else if shop_spawn==true then
+			shop_spawn=false
+			if position == nil then return end
+		for _, ob in pairs(minetest.get_objects_inside_radius(posicao, 1)) do
+			if not ob:is_player() and (not entity or not entity.name:find()) then 
+				minetest.sound_play("disabled", {pos=position, gain = 1.0, max_hear_distance = 10})
+				ob:remove() 
+			end 
+		end
+    end
+end 
+end,
+]]
+
+on_punch = function(pos, node, puncher, pointed_thing)
+		local position = puncher:get_pos() position.y = position.y+1
 		local node = minetest.get_node(position)
 		local posicao = vector.add(pos, {x = 0, y =1, z = 0})
 		
@@ -107,13 +139,14 @@ minetest.register_entity("gold_hunter:shop_spawn_entity_"..itens[i][1],{
 			--name,     		G=Gravit			S=Speed   			J=Jump			 	F=Fleshy
 			--1					4					5			 			6	 	8
 	infotext=itens[i][1].." [ G:"..itens[i][4].." S:"..itens[i][5].." J:"..itens[i][6].." F:"..itens[i][8].." ]",
-on_rightclick = function(self, clicker,rot,jogador,pos)
-	--self.object:set_properties({infotext=itens[i][1]})
-	if not clicker or not clicker:is_player() then return end
-    jogador=clicker:get_player_name()
-        local inv = clicker:get_inventory()
-	minetest.sound_play("catch3", {pos=pos, gain = 1.0, max_hear_distance = 3})
+                                                                        
+on_punch = function(self, hitter,jogador,pos)
+	if not hitter or not hitter:is_player() then return end
+    jogador=hitter:get_player_name()
+        local inv = hitter:get_inventory()
 		inv:add_item("main", "gold_hunter:"..itens[i][1].." 1")
+	minetest.sound_play("catch3", {pos=pos, gain = 1.0, max_hear_distance = 3})
+		
 end,
 
 })
@@ -136,7 +169,7 @@ minetest.register_node("gold_hunter:shop_hook", {
     pathfinding= false,
     groups = {cracky=3,oddly_breakable_by_hand=3,torch=1, not_in_creative_inventory=0},
 
-	on_rightclick = function(pos, node, clicker)
+--[[on_rightclick = function(pos, node, clicker)
 		local position = clicker:get_pos() position.y = position.y+1
 		local node = minetest.get_node(position)
 		local posicao = vector.add(pos, {x = 0, y =1, z = 0})
@@ -149,6 +182,36 @@ minetest.register_node("gold_hunter:shop_hook", {
 			if not ob:is_player() and (not entity or not entity.name:find()) then 
 				ob:remove() end end
 				minetest.sound_play("enabled", {pos=position, gain = 1.0, max_hear_distance = 10})
+				minetest.add_entity(posicao, "gold_hunter:shop_spawn_entity_hook")
+				minetest.get_node_timer(position):start(4.5)
+			end 
+	
+	else if shop_spawn==true then
+			shop_spawn=false
+		for _, ob in pairs(minetest.get_objects_inside_radius(posicao, 1)) do
+			if not ob:is_player() and (not entity or not entity.name:find()) then 
+				minetest.sound_play("disabled", {pos=position, gain = 1.0, max_hear_distance = 10})
+				ob:remove() 
+			end 
+		end
+    end
+end 
+end,]]
+
+on_punch = function(pos, node, puncher, pointed_thing)
+
+local position = puncher:get_pos() position.y = position.y+1
+		local node = minetest.get_node(position)
+		local posicao = vector.add(pos, {x = 0, y =1, z = 0})
+
+	if shop_spawn==false then 
+		shop_spawn=true
+	
+    if node.name == "air"then
+		for _, ob in pairs(minetest.get_objects_inside_radius(posicao, 1)) do
+			if not ob:is_player() and (not entity or not entity.name:find()) then 
+				ob:remove() end end
+				minetest.sound_play("enabled", {pos=posicao, gain = 1.0, max_hear_distance = 10})
 				minetest.add_entity(posicao, "gold_hunter:shop_spawn_entity_hook")
 				minetest.get_node_timer(position):start(4.5)
 			end 
@@ -187,10 +250,11 @@ minetest.register_entity("gold_hunter:shop_spawn_entity_hook",{
     lifetime = 10,
 	--automatic_rotate=1,
 	automatic_rotate =3,
-on_rightclick = function(self, clicker,rot,jogador,pos)
-	if not clicker or not clicker:is_player() then return end
-    jogador=clicker:get_player_name()
-        local inv = clicker:get_inventory()
+
+on_punch = function(self, hitter,jogador,pos)
+	if not hitter or not hitter:is_player() then return end
+    jogador=hitter:get_player_name()
+        local inv = hitter:get_inventory()
 		inv:add_item("main", "gold_hunter:spear_hook_item 1")
 		minetest.sound_play("catch3", {pos=pos, gain = 1.0, max_hear_distance = 3})
 end,

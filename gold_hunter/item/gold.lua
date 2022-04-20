@@ -18,8 +18,10 @@ minetest.register_node("gold_hunter:gold_hunter_gold_block", {
     pathfinding= false,
     groups = {cracky=3,oddly_breakable_by_hand=3,torch=1, not_in_creative_inventory=0},
 
-	on_rightclick = function(pos, node, clicker)
-		local position = clicker:get_pos() position.y = position.y+1
+--on_rightclick = function(pos, node, clicker)
+on_punch = function(pos, node, puncher, pointed_thing)
+
+		local position = puncher:get_pos() position.y = position.y+1
 		local node = minetest.get_node(position)
 		local posicao = vector.add(pos, {x = 0, y =1, z = 0})
 
